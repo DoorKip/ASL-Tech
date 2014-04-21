@@ -19,7 +19,7 @@ import javazoom.jl.player.Player;
 import java.net.HttpURLConnection;
 
 /**
- *
+ * Handles gesture recognition
  * @author DoorKip
  */
 public class GestureRecognition {
