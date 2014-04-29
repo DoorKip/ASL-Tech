@@ -26,20 +26,23 @@ import java.util.ArrayList;
  * @author DoorKip
  */
 public class GestureRecognition {
+	/**
+	 * Attempts to find a match to the input finger positions.
+	 * @param positions A four integer array that defines the position of each finger.
+	 * @return Returns the gesture most closely matched to the input.
+	 */
 	public static String doRecognition(int[] positions){
 		String bestMatchString = null;
 		float bestMatchPercentage = 0;
 		for(Gesture item : gestureList){
-			float matchPercent = 0;
+			float variance = 0;
 			for(int i=0; i<4; i++){
-				double x;
-				if(positions[i]/10.24 > 1){
-					x = positions[i]/10.24;
-				} else { x = 1; }
-				matchPercent += Math.abs(item.getPosition(i)-x)/x;
+				variance += (float) Math.abs( item.getPosition(i) - positions[i]/(SignalProcessor.getMaxSignalValue()*0.01) );
+				System.out.print(Math.abs( item.getPosition(i) - positions[i]/(SignalProcessor.getMaxSignalValue()*0.01) )+" - ");
 			}
-			matchPercent = 100 - matchPercent/4;
-			if(matchPercent > bestMatchPercentage){
+			float matchPercent = 100 - variance*0.25f;
+			System.out.println(item.getName()+": "+matchPercent);
+			if(matchPercent > bestMatchPercentage && matchPercent > minimumMatchPercentage){
 				bestMatchPercentage = matchPercent;
 				bestMatchString = item.getName();
 			}
@@ -47,7 +50,18 @@ public class GestureRecognition {
 		return bestMatchString;
 	}
 	
-	static final ArrayList<Gesture> gestureList = new ArrayList<>();
+	public static void setMinimumMatchPercentage(int percentage){
+		minimumMatchPercentage = percentage;
+	}
+	
+	/**
+	 * 
+	 */
+	private static int minimumMatchPercentage;
+	/**
+	 * List of gestures that the system is capable of recognizing.
+	 */
+	private static final ArrayList<Gesture> gestureList = new ArrayList<>();
 	static {
 		gestureList.add(new Gesture("D",0,100,100,100));
 		gestureList.add(new Gesture("E",100,80,90,100));

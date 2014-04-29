@@ -43,18 +43,17 @@ public class SpeechGeneration {
 		} else {
 			try {
 				URL word = new URL("http://translate.google.com/translate_tts?ie=utf-8&tl=en&q="+str);
-				//BufferedReader in = new BufferedReader();
-				HttpURLConnection cnct = (HttpURLConnection) word.openConnection();
-				cnct.setRequestMethod("GET");
-				cnct.setReadTimeout(10000);
-				cnct.setDoOutput(true);
-				cnct.setRequestProperty("User-Agent", "Mozilla/5.0");
-				cnct.connect();
-				InputStream stream = cnct.getInputStream();
+				HttpURLConnection connection = (HttpURLConnection) word.openConnection();
+				connection.setRequestMethod("GET");
+				connection.setReadTimeout(10000);
+				connection.setDoOutput(true);
+				connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+				connection.connect();
+				InputStream stream = connection.getInputStream();
 				Player play = new Player(stream);
 				play.play();
 				stream.close();
-				cnct.disconnect();
+				connection.disconnect();
 			} catch (IOException | JavaLayerException ex) {
 				Logger.getLogger(ASLTech.class.getName()).log(Level.SEVERE, null, ex);
 			}

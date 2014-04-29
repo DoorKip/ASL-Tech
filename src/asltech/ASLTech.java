@@ -19,8 +19,10 @@
 
 package asltech;
 
+import java.util.ArrayList;
+
 /**
- *
+ * This main file is for testing only. Does not do much otherwise.
  * @author DoorKip
  */
 public class ASLTech {
@@ -29,7 +31,33 @@ public class ASLTech {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		SpeechGeneration.sayString("Testing");
+		array[0] = a1;
+		array[1] = a2;
+		array[2] = a3;
+		array[3] = a4;
+		
+		SignalProcessor sP = new SignalProcessor();
+		
+		for(int i=0;i<40;i++){
+			sP.insertSignal(SignalProcessor.getRandomSignal());
+		}
+		int[] sample = sP.getSample();
+		System.out.print(sample[0]+" - ");
+		System.out.print(sample[1]+" - ");
+		System.out.print(sample[2]+" - ");
+		System.out.println(sample[3]);
+		String recognizedString = GestureRecognition.doRecognition(sample);
+		//SpeechGeneration.sayString(recognizedString);
+		System.out.println(recognizedString);
 	}
 
+	
+static int a1 = 75;
+static int a2 = 20;
+static int a3 = 700;
+static int a4 = 900;
+
+static int[] array = new int[4];
+
 }
+
